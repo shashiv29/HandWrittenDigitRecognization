@@ -17,18 +17,7 @@ img_rows, img_cols = 28, 28
 # the data, split between train and test sets
 (x_train, y_train), (x_test, y_test) = mnist.load_data()
 
-import requests
-requests.packages.urllib3.disable_warnings()
-import ssl
-try:
-   _create_unverified_https_context = ssl._create_unverified_context
-except AttributeError:
-   # Legacy Python that doesn't verify HTTPS certificates by default
-   pass
-else:
-   # Handle target environment that doesn't support HTTPS verification
-   ssl._create_default_https_context = _create_unverified_https_context
-   
+
 if K.image_data_format() == 'channels_first':
     x_train = x_train.reshape(x_train.shape[0], 1, img_rows, img_cols)
     x_test = x_test.reshape(x_test.shape[0], 1, img_rows, img_cols)
@@ -38,8 +27,7 @@ else:
     x_test = x_test.reshape(x_test.shape[0], img_rows, img_cols, 1)
     input_shape = (img_rows, img_cols, 1)
 
-x_train = x_train.astype('float32')
-x_test = x_test.astype('float32')
+
 x_train /= 255
 x_test /= 255
 print('x_train shape:', x_train.shape)
